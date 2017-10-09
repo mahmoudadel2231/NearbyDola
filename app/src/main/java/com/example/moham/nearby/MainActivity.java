@@ -1,9 +1,7 @@
 package com.example.moham.nearby;
 
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void getWebService()
     {
-        Request request = new Request.Builder().url(url).build();
+        final Request request = new Request.Builder().url(url).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -52,18 +50,24 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    JSONObject jsonObject = new JSONObject(response.body().string());
-                    JSONArray jsonArray = jsonObject.getJSONArray("results");
-                    placeModel = new Gson().fromJson(jsonArray.toString(), PlaceModel[].class);
-                    PlacesListViewAdapter placesListViewAdapter = new PlacesListViewAdapter(MainActivity.this, placeModel);
-                    listViewNearbyPlaces.setAdapter(placesListViewAdapter);
-                }
-                catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                final String stringResponse = response.body().toString();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        try {
+                            JSONObject jsonObject = new JSONObject(stringResponse);
+                            JSONArray jsonArray = jsonObject.getJSONArray("results");
+                            placeModel = new Gson().fromJson(jsonArray.toString(), PlaceModel[].class);
+                            PlacesListViewAdapter placesListViewAdapter = new PlacesListViewAdapter(MainActivity.this, placeModel);
+                            listViewNearbyPlaces.setAdapter(placesListViewAdapter);
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
-
         });
     }
 }
