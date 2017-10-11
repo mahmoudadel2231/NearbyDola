@@ -1,9 +1,5 @@
 package com.example.moham.nearby.DataModels;
 
-/**
- * Created by moham on 10/06/2017.
- */
-
 public class PlaceModel
 {
     String icon, id, name, place_id;

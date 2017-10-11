@@ -15,12 +15,6 @@ import com.example.moham.nearby.DataModels.PlaceModel;
 import com.example.moham.nearby.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
-/**
- * Created by moham on 10/06/2017.
- */
-
 public class PlacesListViewAdapter extends ArrayAdapter<PlaceModel>
 {
     public PlacesListViewAdapter(@NonNull Context context, @NonNull PlaceModel[] objects)

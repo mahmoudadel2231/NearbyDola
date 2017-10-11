@@ -1,9 +1,7 @@
 package com.example.moham.nearby;
 
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -52,25 +50,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-          final   String  s=   response.body().string();
-runOnUiThread(new Runnable() {
-    @Override
-    public void run() {
-        try {
-            Log.d("zasm", "onResponse: "+s);
-            JSONObject jsonObject = new JSONObject(s);
-            JSONArray jsonArray = jsonObject.getJSONArray("results");
-            Log.d("sas", "onResponse: "+jsonArray.toString());
-            placeModel = new Gson().fromJson(jsonArray.toString(), PlaceModel[].class);
-            Log.d("zamel", "onResponse: "+placeModel.length);
-            PlacesListViewAdapter placesListViewAdapter = new PlacesListViewAdapter(MainActivity.this, placeModel);
-            listViewNearbyPlaces.setAdapter(placesListViewAdapter);
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-});
+                final   String  s=   response.body().string();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject jsonObject = new JSONObject(s);
+                            JSONArray jsonArray = jsonObject.getJSONArray("results");
+                            placeModel = new Gson().fromJson(jsonArray.toString(), PlaceModel[].class);
+                            PlacesListViewAdapter placesListViewAdapter = new PlacesListViewAdapter(MainActivity.this, placeModel);
+                            listViewNearbyPlaces.setAdapter(placesListViewAdapter);
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
 
             }
 
