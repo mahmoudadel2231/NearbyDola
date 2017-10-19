@@ -1,10 +1,34 @@
 package com.example.moham.nearby.DataModels;
 
-public class PlaceModel
-{
-    String icon, id, name, place_id;
+import android.support.annotation.ArrayRes;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class PlaceModel {
+    String icon;
+    String id;
+    String name;
+    String place_id;
+
+
     boolean open_now;
     float rating;
+
+    @SerializedName("photo_reference")
+    @Expose
+    private String photoReference;
+
+    public String getPhotoReference() {
+        return photoReference;
+    }
+
+    public void setPhotoReference(String photoReference) {
+        this.photoReference = photoReference;
+    }
 
     public String getIcon() {
         return icon;
