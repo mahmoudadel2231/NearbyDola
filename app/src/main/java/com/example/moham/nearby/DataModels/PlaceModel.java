@@ -8,27 +8,14 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class PlaceModel {
+public class PlaceModel implements Serializable {
     String icon;
     String id;
     String name;
     String place_id;
-
-
     boolean open_now;
     float rating;
 
-    @SerializedName("photo_reference")
-    @Expose
-    private String photoReference;
-
-    public String getPhotoReference() {
-        return photoReference;
-    }
-
-    public void setPhotoReference(String photoReference) {
-        this.photoReference = photoReference;
-    }
 
     public String getIcon() {
         return icon;
