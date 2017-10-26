@@ -45,7 +45,7 @@ public class Details extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Details.this , MapsActivity.class);
-                startActivity(intent);
+                //startActivity(intent);
             }
         });
         //  SET Font //
