@@ -18,6 +18,8 @@ import com.example.moham.nearby.R;
 import com.github.lzyzsd.randomcolor.RandomColor;
 import com.squareup.picasso.Picasso;
 
+import java.util.Random;
+
 public class PlacesListViewAdapter extends ArrayAdapter<PlaceModel> {
     private final Context mContext;
 
@@ -59,12 +61,10 @@ public class PlacesListViewAdapter extends ArrayAdapter<PlaceModel> {
         } catch (java.lang.NullPointerException exception) {
             exception.getMessage();
         }
-//        int[] androidColors = getContext().getResources().getIntArray(R.array.androidcolors);
-//       int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
-//        view.setBackgroundColor(randomAndroidColor);
-        RandomColor randomColor = new RandomColor();
-        int color = randomColor.randomColor();
-        view.setBackgroundColor(color);
+        int[] androidColors = getContext().getResources().getIntArray(R.array.androidcolors);
+       int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
+        view.setBackgroundColor(randomAndroidColor);
+
         return convertView;
     }
 

@@ -1,11 +1,15 @@
 package com.example.moham.nearby;
 
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.moham.nearby.DataModels.PlaceModel;
 import com.squareup.picasso.Picasso;
@@ -19,6 +23,7 @@ public class Details extends AppCompatActivity {
     TextView rate;
     TextView editcategory;
     TextView edithours;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +39,15 @@ public class Details extends AppCompatActivity {
         openhours = (TextView) findViewById(R.id.openinghours);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar2);
         image = (ImageView) findViewById(R.id.imageView4);
-
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         Typeface mycustom = Typeface.createFromAsset(getAssets(), "fonts/b.otf");
-
-
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Details.this , MapsActivity.class);
+                startActivity(intent);
+            }
+        });
         //  SET Font //
         resturantname.setTypeface(mycustom);
         category.setTypeface(mycustom);
@@ -58,4 +68,5 @@ public class Details extends AppCompatActivity {
     exception.getMessage() ;
         }
     }
+
 }
