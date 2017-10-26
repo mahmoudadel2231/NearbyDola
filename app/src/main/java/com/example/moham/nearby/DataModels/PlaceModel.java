@@ -1,37 +1,18 @@
 package com.example.moham.nearby.DataModels;
 
-import android.support.annotation.ArrayRes;
 
-import com.google.gson.annotations.Expose;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 public class PlaceModel implements Serializable {
-    String icon;
-    String id;
+    public photos[] photos;
     String name;
-    String place_id;
     boolean open_now;
     float rating;
-
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -39,14 +20,6 @@ public class PlaceModel implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPlace_id() {
-        return place_id;
-    }
-
-    public void setPlace_id(String place_id) {
-        this.place_id = place_id;
     }
 
     public boolean isOpen_now() {
@@ -63,5 +36,15 @@ public class PlaceModel implements Serializable {
 
     public void setRating(float rating) {
         this.rating = rating;
+    }
+
+    public class photos implements Serializable {
+
+        public String photo_reference;
+
+        public String getPhoto_reference() {
+            return photo_reference;
+        }
+
     }
 }

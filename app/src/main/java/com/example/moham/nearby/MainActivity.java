@@ -39,6 +39,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import okhttp3.Address;
 import okhttp3.Call;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         mLocationRequest.setFastestInterval(500);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
+
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -171,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                                     Intent intent = new Intent(MainActivity.this, Details.class);
                                     intent.putExtra("PlaceModel", (Serializable) placeModel[i]);
                                     startActivity(intent);
+                                    Log.d("Dola", "onItemClick: " + intent);
                                 }
                             });
                         } catch (JSONException e) {

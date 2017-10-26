@@ -24,6 +24,7 @@ public class Details extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        PlaceModel placeModel = (PlaceModel) getIntent().getSerializableExtra("PlaceModel");
         // initi
         editcategory = (TextView) findViewById(R.id.category);
         edithours = (TextView) findViewById(R.id.openhours);
@@ -35,7 +36,7 @@ public class Details extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.imageView4);
 
         Typeface mycustom = Typeface.createFromAsset(getAssets(), "fonts/b.otf");
-        PlaceModel placeModel = (PlaceModel) getIntent().getSerializableExtra("PlaceModel");
+
 
         //  SET Font //
         resturantname.setTypeface(mycustom);
@@ -51,6 +52,7 @@ public class Details extends AppCompatActivity {
         ratingBar.setRating(placeModel.getRating());
         ratingBar.setIsIndicator(true);
 
-        //   Picasso.with(this).load("http://image.tmdb.org/t/p/w500/" + placeModel.getPoster_path()).into( imageViewItem);
+        Picasso.with(this).load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=700&photoreference=" +
+                placeModel.photos[0].getPhoto_reference() + "&key=AIzaSyD8aYBQLmxk1qsY7wkojwiH_wZeCBI6QKA").fit().into(image);
     }
 }

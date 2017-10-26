@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.moham.nearby.DataModels.PlaceModel;
 import com.example.moham.nearby.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.Random;
 
@@ -37,7 +38,7 @@ public class PlacesListViewAdapter extends ArrayAdapter<PlaceModel> {
         }
         Typeface mycustom = Typeface.createFromAsset(mContext.getAssets(), "fonts/b.otf");
 
-        final PlaceModel placeModel = getItem(position);
+        PlaceModel placeModel = getItem(position);
         ImageView view = convertView.findViewById(R.id.imageView2);
 
         TextView textViewPlaceName = convertView.findViewById(R.id.name);
@@ -55,7 +56,8 @@ public class PlacesListViewAdapter extends ArrayAdapter<PlaceModel> {
         ratingBarPlaceRate.setRating(placeModel.getRating());
         ratingBarPlaceRate.setIsIndicator(true);
         ImageView imageView = convertView.findViewById(R.id.image);
-        // Picasso.with(getContext()).load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photoreference=" + PlaceModel.getPhoto_reference() + "&key=AIzaSyD8aYBQLmxk1qsY7wkojwiH_wZeCBI6QKA").into(imageView);
+        Picasso.with(getContext()).load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photoreference=" +
+                placeModel.photos[0].getPhoto_reference() + "&key=AIzaSyD8aYBQLmxk1qsY7wkojwiH_wZeCBI6QKA").transform(new CircleTransform()).into(imageView);
         int[] androidColors = mContext.getResources().getIntArray(R.array.androidcolors);
         int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
         view.setBackgroundColor(randomAndroidColor);
