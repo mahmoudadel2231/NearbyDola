@@ -56,12 +56,11 @@ public class PlacesListViewAdapter extends ArrayAdapter<PlaceModel> {
         ratingBarPlaceRate.setRating(placeModel.getRating());
         ratingBarPlaceRate.setIsIndicator(true);
         ImageView imageView = convertView.findViewById(R.id.image);
-        Picasso.with(getContext()).load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photoreference=" +
+        Picasso.with(mContext).load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photoreference=" +
                 placeModel.photos[0].getPhoto_reference() + "&key=AIzaSyD8aYBQLmxk1qsY7wkojwiH_wZeCBI6QKA").transform(new CircleTransform()).into(imageView);
         int[] androidColors = mContext.getResources().getIntArray(R.array.androidcolors);
         int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
         view.setBackgroundColor(randomAndroidColor);
-
         return convertView;
     }
 

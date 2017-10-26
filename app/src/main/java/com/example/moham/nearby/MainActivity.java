@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     ImageView imageView;
     TextView textView;
     LocationRequest mLocationRequest;
-
+    Double Latitude, longitude;
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -87,10 +87,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                     mGoogleApiClient);
             createLocationRequest();
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-
+            Latitude = mLastLocation.getLatitude();
+            longitude = mLastLocation.getLongitude();
             if (mLastLocation != null) {
-                Log.d("zzz", "onConnected: " + mLastLocation.getLatitude() + " m " + mLastLocation.getLongitude());
-                Toast.makeText(this, mLastLocation.getLatitude() + " m " + mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+
+                //   Log.d("zzz", "onConnected: " + mLastLocation.getLatitude() + " m " + mLastLocation.getLongitude());
+                //  Toast.makeText(this, mLastLocation.getLatitude() + " m " + mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -136,10 +138,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             @Override
             public void onClick(View view) {
                 input = editText.getText().toString().trim();
-
-                url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type= resturant&keyword=" + input + "&key=AIzaSyC-Aw8ExKIvYXAHtHRc3yRsDtgFDvr2j3Q";
-                //   url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ mLastLocation.getLatitude() +","+ mLastLocation.getLongitude()+"&radius=500&type= resturant&keyword=" + input + "&key=AIzaSyC-Aw8ExKIvYXAHtHRc3yRsDtgFDvr2j3Q";
-
+                Toast.makeText(MainActivity.this, Latitude + " m" + longitude, Toast.LENGTH_LONG).show();
+//                url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyD8aYBQLmxk1qsY7wkojwiH_wZeCBI6QKA" ;
+                url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + Latitude + "," + longitude + "&radius=500&type=" + input + "&key=AIzaSyC-Aw8ExKIvYXAHtHRc3yRsDtgFDvr2j3Q";
                 getWebService();
             }
         });
@@ -162,8 +163,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                         try {
                             JSONObject jsonObject = new JSONObject(s);
                             JSONArray jsonArray = jsonObject.getJSONArray("results");
-
-
                             placeModel = new Gson().fromJson(jsonArray.toString(), PlaceModel[].class);
                             PlacesListViewAdapter placesListViewAdapter = new PlacesListViewAdapter(MainActivity.this, placeModel);
                             listViewNearbyPlaces.setAdapter(placesListViewAdapter);
@@ -176,6 +175,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                                     Log.d("Dola", "onItemClick: " + intent);
                                 }
                             });
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
