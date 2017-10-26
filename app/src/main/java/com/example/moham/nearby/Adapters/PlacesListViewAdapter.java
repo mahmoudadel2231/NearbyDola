@@ -1,7 +1,7 @@
 package com.example.moham.nearby.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
+
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,10 +15,8 @@ import android.widget.TextView;
 
 import com.example.moham.nearby.DataModels.PlaceModel;
 import com.example.moham.nearby.R;
+import com.github.lzyzsd.randomcolor.RandomColor;
 import com.squareup.picasso.Picasso;
-
-import java.util.Random;
-
 
 public class PlacesListViewAdapter extends ArrayAdapter<PlaceModel> {
     private final Context mContext;
@@ -40,7 +38,6 @@ public class PlacesListViewAdapter extends ArrayAdapter<PlaceModel> {
 
         PlaceModel placeModel = getItem(position);
         ImageView view = convertView.findViewById(R.id.imageView2);
-
         TextView textViewPlaceName = convertView.findViewById(R.id.name);
         textViewPlaceName.setText(placeModel.getName());
         textViewPlaceName.setTypeface(mycustom);
@@ -56,11 +53,18 @@ public class PlacesListViewAdapter extends ArrayAdapter<PlaceModel> {
         ratingBarPlaceRate.setRating(placeModel.getRating());
         ratingBarPlaceRate.setIsIndicator(true);
         ImageView imageView = convertView.findViewById(R.id.image);
-        Picasso.with(mContext).load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photoreference=" +
-                placeModel.photos[0].getPhoto_reference() + "&key=AIzaSyD8aYBQLmxk1qsY7wkojwiH_wZeCBI6QKA").transform(new CircleTransform()).into(imageView);
-        int[] androidColors = mContext.getResources().getIntArray(R.array.androidcolors);
-        int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
-        view.setBackgroundColor(randomAndroidColor);
+        try {
+            Picasso.with(mContext).load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=700&photoreference=" +
+                    placeModel.photos[0].getPhoto_reference() + "&key=AIzaSyC-Aw8ExKIvYXAHtHRc3yRsDtgFDvr2j3Q").transform(new CircleTransform()).into(imageView);
+        } catch (java.lang.NullPointerException exception) {
+            exception.getMessage();
+        }
+//        int[] androidColors = getContext().getResources().getIntArray(R.array.androidcolors);
+//       int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
+//        view.setBackgroundColor(randomAndroidColor);
+        RandomColor randomColor = new RandomColor();
+        int color = randomColor.randomColor();
+        view.setBackgroundColor(color);
         return convertView;
     }
 

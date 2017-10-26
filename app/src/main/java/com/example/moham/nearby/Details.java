@@ -51,8 +51,11 @@ public class Details extends AppCompatActivity {
         ratingBar.setMax(5);
         ratingBar.setRating(placeModel.getRating());
         ratingBar.setIsIndicator(true);
-
-        Picasso.with(this).load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=700&photoreference=" +
-                placeModel.photos[0].getPhoto_reference() + "&key=AIzaSyD8aYBQLmxk1qsY7wkojwiH_wZeCBI6QKA").fit().into(image);
+        try {
+            Picasso.with(getApplicationContext()).load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=700&photoreference=" +
+                    placeModel.photos[0].getPhoto_reference() + "&key=AIzaSyC-Aw8ExKIvYXAHtHRc3yRsDtgFDvr2j3Q").fit().into(image);
+        } catch (java.lang.NullPointerException exception) {
+    exception.getMessage() ;
+        }
     }
 }

@@ -87,10 +87,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                     mGoogleApiClient);
             createLocationRequest();
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-            Latitude = mLastLocation.getLatitude();
-            longitude = mLastLocation.getLongitude();
-            if (mLastLocation != null) {
 
+            if (mLastLocation != null) {
+                Latitude = mLastLocation.getLatitude();
+                longitude = mLastLocation.getLongitude();
                 //   Log.d("zzz", "onConnected: " + mLastLocation.getLatitude() + " m " + mLastLocation.getLongitude());
                 //  Toast.makeText(this, mLastLocation.getLatitude() + " m " + mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
             }
@@ -139,8 +139,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             public void onClick(View view) {
                 input = editText.getText().toString().trim();
                 Toast.makeText(MainActivity.this, Latitude + " m" + longitude, Toast.LENGTH_LONG).show();
-//                url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyD8aYBQLmxk1qsY7wkojwiH_wZeCBI6QKA" ;
-                url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + Latitude + "," + longitude + "&radius=500&type=" + input + "&key=AIzaSyC-Aw8ExKIvYXAHtHRc3yRsDtgFDvr2j3Q";
+                url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyC-Aw8ExKIvYXAHtHRc3yRsDtgFDvr2j3Q";
+                //   url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + Latitude + "," + longitude + "&radius=500&type=" + input + "&key=AIzaSyAUALAN8KpdviIt6N0eGBzMNk9gSxmDV3g";
                 getWebService();
             }
         });
