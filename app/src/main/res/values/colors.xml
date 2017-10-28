@@ -5,7 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="ActionBar">#019ADE</color>
     <color name="NotfiBar">#028AC6</color>
-    <color name="Bar">#fd0101</color>
+    <color name="Bar">#EFBE2E</color>
     <item name="blue" type="color">#33b5e5</item>
     <item name="purple" type="color">#FFAA66CC</item>
     <item name="green" type="color">#FF99CC00</item>

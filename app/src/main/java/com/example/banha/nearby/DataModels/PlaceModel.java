@@ -1,18 +1,22 @@
-package com.example.moham.nearby.DataModels;
+package com.example.banha.nearby.DataModels;
 
-
-import android.os.Parcelable;
-
-import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class PlaceModel implements Serializable {
     public photos[] photos;
     String name;
     boolean open_now;
     float rating;
+    String vicinity;
+
+    public String getVicinity() {
+        return vicinity;
+    }
+
+    public void setVicinity(String vicinity) {
+        this.vicinity = vicinity;
+    }
 
     public String getName() {
         return name;

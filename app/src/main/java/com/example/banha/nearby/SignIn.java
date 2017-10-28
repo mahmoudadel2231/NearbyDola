@@ -1,15 +1,14 @@
-package com.example.moham.nearby;
+package com.example.banha.nearby;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.service.voice.VoiceInteractionSession;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SignIn extends AppCompatActivity {
     EditText username;
@@ -31,11 +30,14 @@ public class SignIn extends AppCompatActivity {
                 SharedPreferences userDetails = SignIn.this.getSharedPreferences("userdetails", MODE_PRIVATE);
                 String Uname = userDetails.getString("username", "mn");
                 String pass = userDetails.getString("password", "mm");
-                Intent intent = new Intent(SignIn.this, MainActivity.class);
+                Intent intent = new Intent(SignIn.this, Search.class);
                 if (Uname.equals(username.getText().toString().trim()) && pass.equals(password.getText().toString().trim())) {
                     intent.putExtra("us", username.getText().toString());
                     intent.putExtra("pa", password.getText().toString());
                     startActivity(intent);
+                    Toast.makeText(SignIn.this, "Dont Forget To Open Your location", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(SignIn.this, "Wrong E-MAIL OR Password", Toast.LENGTH_SHORT).show();
                 }
             }
         });

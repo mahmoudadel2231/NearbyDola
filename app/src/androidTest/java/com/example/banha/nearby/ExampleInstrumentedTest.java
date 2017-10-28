@@ -1,4 +1,4 @@
-package com.example.moham.nearby;
+package com.example.banha.nearby;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

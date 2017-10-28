@@ -1,11 +1,10 @@
-package com.example.moham.nearby;
+package com.example.banha.nearby;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.location.Location;
-import android.os.Parcelable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -25,8 +24,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.moham.nearby.Adapters.PlacesListViewAdapter;
-import com.example.moham.nearby.DataModels.PlaceModel;
+import com.example.banha.nearby.Adapters.PlacesListViewAdapter;
+import com.example.banha.nearby.DataModels.PlaceModel;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -39,19 +38,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Locale;
 
-import okhttp3.Address;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.example.moham.nearby.R.menu.men;
+import static com.example.banha.nearby.R.menu.men;
 
-public class MainActivity extends AppCompatActivity implements LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class Search extends AppCompatActivity implements LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     GoogleApiClient mGoogleApiClient;
 
     ListView listViewNearbyPlaces;
@@ -64,17 +61,24 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     TextView textView;
     LocationRequest mLocationRequest;
     Double Latitude, longitude;
-
-
+    ImageView Shutdown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_search);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.abs_layout);
-
+        Shutdown = (ImageView) findViewById(R.id.ImageSuhtdown);
+        Shutdown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Search.this, SignIn.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -101,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         editText = (EditText) findViewById(R.id.editText);
         imageView = (ImageView) findViewById(R.id.imgSearch);
         listViewNearbyPlaces = (ListView) findViewById(R.id.listViewNearbyPlaces);
+
         client = new OkHttpClient();
         editText.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -113,9 +118,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             @Override
             public void onClick(View view) {
                 input = editText.getText().toString().trim();
-                Toast.makeText(MainActivity.this, Latitude + " m" + longitude, Toast.LENGTH_LONG).show();
-                url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyC-Aw8ExKIvYXAHtHRc3yRsDtgFDvr2j3Q";
-                //   url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + Latitude + "," + longitude + "&radius=500&type=" + input + "&key=AIzaSyAUALAN8KpdviIt6N0eGBzMNk9gSxmDV3g";
+                //Toast.makeText(Search.this, Latitude + " m" + longitude, Toast.LENGTH_LONG).show();
+                //Sydney
+               url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyC-Aw8ExKIvYXAHtHRc3yRsDtgFDvr2j3Q";
+                //Madent NAsr
+              //  url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=30.056220,31.330211&radius=500&type=restaurant&keyword=cruise&key=AIzaSyC-Aw8ExKIvYXAHtHRc3yRsDtgFDvr2j3Q";
+                //current
+                //  url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + Latitude + "," + longitude + "&radius=500&type=" + input + "&key=AIzaSyAUALAN8KpdviIt6N0eGBzMNk9gSxmDV3g";
                 getWebService();
             }
         });
@@ -126,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(Search.this, "Error", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -136,18 +145,35 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                     @Override
                     public void run() {
                         try {
+
                             JSONObject jsonObject = new JSONObject(s);
                             JSONArray jsonArray = jsonObject.getJSONArray("results");
                             placeModel = new Gson().fromJson(jsonArray.toString(), PlaceModel[].class);
-                            PlacesListViewAdapter placesListViewAdapter = new PlacesListViewAdapter(MainActivity.this, placeModel);
+                            final Double lng = jsonArray.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getDouble("lng");
+                            final Double lat = jsonArray.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getDouble("lat");
+
+                            final PlacesListViewAdapter placesListViewAdapter = new PlacesListViewAdapter(Search.this, placeModel);
                             listViewNearbyPlaces.setAdapter(placesListViewAdapter);
                             listViewNearbyPlaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                    Intent intent = new Intent(MainActivity.this, Details.class);
-                                    intent.putExtra("PlaceModel", (Serializable) placeModel[i]);
+                                    long viewId = view.getId();
+                                    if (viewId == R.id.imageView9) {
+                                        String uri = String.format(Locale.ENGLISH, "geo:%f,%f", lat, lng);
+                                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                                        startActivity(intent) ;
+                                    }
+                                    Intent intent = new Intent(Search.this, Details.class);
+                                    intent.putExtra("PlaceModel", placeModel[i]);
+                                    // Toast.makeText(Search.this,lat + "  "  +lng , Toast.LENGTH_SHORT).show();
+                                    intent.putExtra("langitude", lng);
+                                    intent.putExtra("latitude", lat);
+                                    //  Intent intent1 = new Intent(Search.this, Details.class);
+                                    // Toast.makeText(Search.this, longitude + "" + Latitude, Toast.LENGTH_SHORT).show();
+                                    intent.putExtra("langitude1", longitude);
+                                    intent.putExtra("latitude1", Latitude);
                                     startActivity(intent);
-                                    Log.d("Dola", "onItemClick: " + intent);
+
                                 }
                             });
 
@@ -179,6 +205,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 return true;
             case R.id.hot:
                 editText.setText("hotel");
+                return true;
+            case R.id.bank:
+                editText.setText("bank");
+                return true;
+            case R.id.school:
+                editText.setText("school");
+                return true;
+            case R.id.stadium:
+                editText.setText("stadium");
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -232,6 +267,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
@@ -268,8 +304,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     @Override
     public void onLocationChanged(Location location) {
-        //   Toast.makeText(MainActivity.this, "the change" + location.getLatitude() + " m " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+        //   Toast.makeText(Search.this, "the change" + location.getLatitude() + " m " + location.getLongitude(), Toast.LENGTH_SHORT).show();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent setIntent = new Intent(Intent.ACTION_MAIN);
+        setIntent.addCategory(Intent.CATEGORY_HOME);
+        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(setIntent);
     }
 }
 

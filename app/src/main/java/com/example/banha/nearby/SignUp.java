@@ -1,4 +1,4 @@
-package com.example.moham.nearby;
+package com.example.banha.nearby;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -58,16 +58,16 @@ public class SignUp extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (username.getText().toString().trim().endsWith("@gmail.com") || username.getText().toString().trim().endsWith("@yahoo.com") || username.getText().toString().trim().endsWith("@outlook.com")) {
-                    SharedPreferences userDetails = SignUp.this.getSharedPreferences("userdetails", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = userDetails.edit();
-                    editor.putString("username", username.getText().toString());
-                    editor.putString("password", password.getText().toString());
-                    editor.putString("logged", "logged");
-                    editor.apply();
-                    Intent intent = new Intent(SignUp.this, SignIn.class);
-                    Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_LONG).show();
-                    startActivity(intent);
+               if (username.getText().toString().trim().endsWith(".com") ) {
+                SharedPreferences userDetails = SignUp.this.getSharedPreferences("userdetails", MODE_PRIVATE);
+                SharedPreferences.Editor editor = userDetails.edit();
+                editor.putString("username", username.getText().toString());
+                editor.putString("password", password.getText().toString());
+                editor.putString("logged", "logged");
+                editor.apply();
+                Intent intent = new Intent(SignUp.this, SignIn.class);
+                Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_LONG).show();
+                startActivity(intent);
 
                 } else {
                     Toast.makeText(SignUp.this, "Worng Email !", Toast.LENGTH_SHORT).show();
@@ -128,5 +128,12 @@ public class SignUp extends AppCompatActivity {
             Uri imageUri = data.getData();
             imageView.setImageURI(imageUri);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(SignUp.this, SignIn.class);
+        startActivity(intent);
+        finish();
     }
 }

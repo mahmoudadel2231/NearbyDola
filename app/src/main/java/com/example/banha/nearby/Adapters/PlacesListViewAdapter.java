@@ -1,23 +1,27 @@
-package com.example.moham.nearby.Adapters;
+package com.example.banha.nearby.Adapters;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.example.moham.nearby.DataModels.PlaceModel;
-import com.example.moham.nearby.R;
-import com.github.lzyzsd.randomcolor.RandomColor;
+import com.example.banha.nearby.DataModels.PlaceModel;
+import com.example.banha.nearby.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.Locale;
 import java.util.Random;
 
 public class PlacesListViewAdapter extends ArrayAdapter<PlaceModel> {
@@ -27,15 +31,26 @@ public class PlacesListViewAdapter extends ArrayAdapter<PlaceModel> {
     public PlacesListViewAdapter(@NonNull Context context, @NonNull PlaceModel[] objects) {
         super(context, 0, objects);
         mContext = context;
-    }
 
+    }
+/*
+String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
+Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+context.startActivity(intent);*/
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull final ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_view_item_row, parent, false);
         }
+        ImageView gmap = convertView.findViewById(R.id.imageView9);
+        gmap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ListView) parent).performItemClick(v, position, 0); // Let the event be handled in onItemClick()
+            }
+        });
         Typeface mycustom = Typeface.createFromAsset(mContext.getAssets(), "fonts/b.otf");
 
         PlaceModel placeModel = getItem(position);
@@ -62,7 +77,7 @@ public class PlacesListViewAdapter extends ArrayAdapter<PlaceModel> {
             exception.getMessage();
         }
         int[] androidColors = getContext().getResources().getIntArray(R.array.androidcolors);
-       int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
+        int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
         view.setBackgroundColor(randomAndroidColor);
 
         return convertView;

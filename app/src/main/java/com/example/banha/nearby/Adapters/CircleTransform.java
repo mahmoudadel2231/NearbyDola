@@ -1,4 +1,4 @@
-package com.example.moham.nearby.Adapters;
+package com.example.banha.nearby.Adapters;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

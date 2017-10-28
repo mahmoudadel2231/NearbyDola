@@ -6,4 +6,13 @@
     <item
         android:id="@+id/hot"
         android:title="hotel" />
+    <item
+        android:id="@+id/bank"
+        android:title="bank" />
+    <item
+        android:id="@+id/stadium"
+        android:title="stadium" />
+    <item
+        android:id="@+id/school"
+        android:title="school" />
 </menu>

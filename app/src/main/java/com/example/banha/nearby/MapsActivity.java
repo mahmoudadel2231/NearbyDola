@@ -1,31 +1,37 @@
-package com.example.moham.nearby;
+package com.example.banha.nearby;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-
+ImageView imageViewback ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
     }
 
 
@@ -40,17 +46,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        final Double lang = getIntent().getDoubleExtra("lang", 0.00);
+        final Double lat = getIntent().getDoubleExtra("lat", 0.00);
+        final Double lang1 = getIntent().getDoubleExtra("lang0", 0.00);
+        final Double lat1 = getIntent().getDoubleExtra("lat0", 0.00);
+
         mMap = googleMap;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        LatLng isiMarker = new LatLng(30.255164, 31.168444);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.addMarker(new MarkerOptions().position(isiMarker).title("isi is here ").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(isiMarker, 18));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng destination = new LatLng(lat, lang);
+        LatLng MyPlace = new LatLng(lat1, lang1);
+        mMap.addMarker(new MarkerOptions().position(destination).title("Destination"));
+        mMap.addMarker(new MarkerOptions().position(MyPlace).title("Your Place"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MyPlace, 2));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(MyPlace));
 
     }
 }
